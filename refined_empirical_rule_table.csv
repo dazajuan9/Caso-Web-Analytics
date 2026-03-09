@@ -1,0 +1,7 @@
+"Interval","Theoretical_Percentage","Theoretical_No_Obs","Actual_No_Obs"
+"mean to +1 std. dev.",34,22.44,18
+"mean to -1 std. dev.",34,22.44,27
+"+1 std. dev. to +2 std. dev.",13.5,8.91,9
+"-1 std. dev. to -2 std. dev.",13.5,8.91,9
+"+2 std. dev. to +3 std. dev.",2.35,1.55,2
+"-2 std. dev. to -3 std. dev.",2.35,1.55,1

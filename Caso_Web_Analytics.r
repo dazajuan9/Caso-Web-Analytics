@@ -138,7 +138,7 @@ ggplot(means_table, aes(x = Period, y = Lbs_Sold)) +
   labs(title = "Mean Lbs Sold by Period", x = "Period", y = "Mean Lbs Sold") +
   theme_minimal()
 
-#Pregunta 5 
+#Punto 5
 
 #Sactter Plot Revenue vs Lbs Sold
 library(ggplot2)
@@ -155,7 +155,7 @@ ggplot(combined_data, aes(x = `Lbs. Sold`, y = Revenue)) +
 #Correlacion
 cor(combined_data$Revenue, combined_data$`Lbs. Sold`, use = "complete.obs")
 
-#Pregunta 6 
+#Punto 6 
 
 #Sactter Plot Revenue vs Visits 
 ggplot(combined_data, aes(x = Visits, y = Revenue)) +
@@ -169,3 +169,133 @@ ggplot(combined_data, aes(x = Visits, y = Revenue)) +
 
 #Correlacion
 cor(combined_data$Revenue, combined_data$Visits, use = "complete.obs")
+
+#PUNTO 8A: Estadísticas resumen de Lbs. Sold
+lbs_summary <- data.frame(
+  Statistic = c("Mean", "Median", "Std Dev", "Minimum", "Maximum"),
+  Value = c(
+    mean(combined_data$`Lbs. Sold`),
+    median(combined_data$`Lbs. Sold`),
+    sd(combined_data$`Lbs. Sold`),
+    min(combined_data$`Lbs. Sold`),
+    max(combined_data$`Lbs. Sold`)
+  )
+)
+
+print(lbs_summary)
+
+write.csv(lbs_summary, "summary_lbs_sold.csv", row.names = FALSE)
+
+#Punto 8B Histograma de Lbs. Sold
+ggplot(combined_data, aes(x = `Lbs. Sold`)) +
+  geom_histogram(
+    bins = 10,
+    fill = "purple",
+    color = "black"
+  ) +
+  labs(
+    title = "Histogram of Pounds of Material Sold",
+    x = "Pounds Sold",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+#Punto 8D: Analisis de la regla empirica 
+# Calcular media, desviación estándar y número de observaciones
+mean_lbs <- mean(combined_data$`Lbs. Sold`)
+sd_lbs <- sd(combined_data$`Lbs. Sold`)
+n <- nrow(combined_data)
+
+# Calcular z-scores
+combined_data$z_score <- (combined_data$`Lbs. Sold` - mean_lbs) / sd_lbs
+
+# Observaciones reales dentro de cada intervalo
+obs_1sd <- sum(abs(combined_data$z_score) <= 1)
+obs_2sd <- sum(abs(combined_data$z_score) <= 2)
+obs_3sd <- sum(abs(combined_data$z_score) <= 3)
+
+# Observaciones teóricas según la regla empírica
+theo_1sd <- 0.68 * n
+theo_2sd <- 0.95 * n
+theo_3sd <- 0.99 * n
+
+# Crear tabla final
+empirical_rule_table <- data.frame(
+  Interval = c("mean ± 1 sd", "mean ± 2 sd", "mean ± 3 sd"),
+  Theoretical_Percentage = c("68%", "95%", "99%"),
+  Theoretical_Observations = c(theo_1sd, theo_2sd, theo_3sd),
+  Actual_Observations = c(obs_1sd, obs_2sd, obs_3sd)
+)
+
+print(empirical_rule_table)
+
+# Guardar resultados
+write.csv(empirical_rule_table, "empirical_rule_results.csv", row.names = FALSE)
+
+#Punto 8E: 
+
+# Porcentajes teóricos por intervalo
+theoretical_percent <- c(0.34, 0.34, 0.135, 0.135, 0.0235, 0.0235)
+
+# Observaciones teóricas
+theoretical_obs <- theoretical_percent * n
+
+# Observaciones reales usando z-scores
+actual_obs <- c(
+  sum(combined_data$z_score > 0 & combined_data$z_score <= 1),
+  sum(combined_data$z_score < 0 & combined_data$z_score >= -1),
+  sum(combined_data$z_score > 1 & combined_data$z_score <= 2),
+  sum(combined_data$z_score < -1 & combined_data$z_score >= -2),
+  sum(combined_data$z_score > 2 & combined_data$z_score <= 3),
+  sum(combined_data$z_score < -2 & combined_data$z_score >= -3)
+)
+
+# Crear tabla final
+refined_empirical_table <- data.frame(
+  Interval = c(
+    "mean to +1 std. dev.",
+    "mean to -1 std. dev.",
+    "+1 std. dev. to +2 std. dev.",
+    "-1 std. dev. to -2 std. dev.",
+    "+2 std. dev. to +3 std. dev.",
+    "-2 std. dev. to -3 std. dev."
+  ),
+  Theoretical_Percentage = theoretical_percent * 100,
+  Theoretical_No_Obs = round(theoretical_obs,2),
+  Actual_No_Obs = actual_obs
+)
+
+# Mostrar tabla
+print(refined_empirical_table)
+
+# Guardar CSV
+write.csv(refined_empirical_table, "refined_empirical_rule_table.csv", row.names = FALSE)
+
+#Punto 8G: 
+
+# Vector de datos
+x <- combined_data$`Lbs. Sold`
+
+# Número de observaciones
+n <- length(x)
+
+# Media y desviación estándar
+mean_x <- mean(x)
+sd_x <- sd(x)
+
+# Skewness
+skewness_lbs <- sum((x - mean_x)^3) / ((n - 1) * sd_x^3)
+
+# Kurtosis
+kurtosis_lbs <- sum((x - mean_x)^4) / ((n - 1) * sd_x^4)
+
+# Crear tabla
+shape_statistics <- data.frame(
+  Statistic = c("Skewness", "Kurtosis"),
+  Value = c(skewness_lbs, kurtosis_lbs)
+)
+
+print(shape_statistics)
+
+# Guardar CSV
+write.csv(shape_statistics, "skewness_kurtosis_lbs_sold.csv", row.names = FALSE)

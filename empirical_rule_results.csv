@@ -1,0 +1,4 @@
+"Interval","Theoretical_Percentage","Theoretical_Observations","Actual_Observations"
+"mean ± 1 sd","68%",44.88,45
+"mean ± 2 sd","95%",62.7,63
+"mean ± 3 sd","99%",65.34,66
