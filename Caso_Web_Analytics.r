@@ -79,3 +79,61 @@ write.csv(tabla_estadisticas_descriptivas(initial),   "summary_initial.csv")
 write.csv(tabla_estadisticas_descriptivas(prepromo),  "summary_prepromo.csv")
 write.csv(tabla_estadisticas_descriptivas(promo),     "summary_promo.csv")
 write.csv(tabla_estadisticas_descriptivas(postpromo), "summary_postpromo.csv")
+
+#PUNTO 3: MEDIAS POR PERIODO
+
+means_table <- data.frame(
+  Period = c("Initial", "Pre-Promo", "Promotion", "Post-Promo"),
+  Visits = c(mean(initial$Visits), mean(prepromo$Visits), mean(promo$Visits), mean(postpromo$Visits)),
+  Unique_Visits = c(mean(initial$`Unique Visits`), mean(prepromo$`Unique Visits`),
+                    mean(promo$`Unique Visits`), mean(postpromo$`Unique Visits`)),
+  Revenue = c(mean(initial$Revenue), mean(prepromo$Revenue),
+              mean(promo$Revenue), mean(postpromo$Revenue)),
+  Profit = c(mean(initial$Profit), mean(prepromo$Profit),
+             mean(promo$Profit), mean(postpromo$Profit)),
+  Lbs_Sold = c(mean(initial$`Lbs. Sold`), mean(prepromo$`Lbs. Sold`),
+               mean(promo$`Lbs. Sold`), mean(postpromo$`Lbs. Sold`))
+)
+
+print(means_table)
+
+#Guardar la tabla de medias por periodo en un archivo CSV
+write.csv(means_table, "summary_means_by_period.csv", row.names = FALSE)
+
+#Grafica means visits by period
+ggplot(means_table, aes(x = Period, y = Visits)) +
+  geom_col(fill = "steelblue") +
+  labs(title = "Mean Visits by Period",
+       x = "Period",
+       y = "Mean Visits") +
+  theme_minimal()
+
+#Grafica mean unique visits by period
+ggplot(means_table, aes(x = Period, y = Unique_Visits)) +
+  geom_col(fill = "steelblue") +
+  labs(title = "Mean Visits by Period",
+       x = "Period",
+       y = "Mean Visits") +
+  theme_minimal()
+
+#Grafica mean revenue by period
+ggplot(means_table, aes(x = Period, y = Revenue)) +
+  geom_col(fill = "darkgreen") +
+  labs(title = "Mean Revenue by Period",
+       x = "Period",
+       y = "Mean Revenue") +
+  theme_minimal()
+
+#Grafica mean profit by period
+ggplot(means_table, aes(x = Period, y = Profit)) +
+  geom_col(fill = "purple") +
+  labs(title = "Mean Profit by Period",
+       x = "Period",
+       y = "Mean Profit") +
+  theme_minimal()
+
+#Grafica mean lbs sold by period
+ggplot(means_table, aes(x = Period, y = Lbs_Sold)) +
+  geom_col(fill = "orange") +
+  labs(title = "Mean Lbs Sold by Period", x = "Period", y = "Mean Lbs Sold") +
+  theme_minimal()
