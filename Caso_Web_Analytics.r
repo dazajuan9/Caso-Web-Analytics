@@ -137,3 +137,22 @@ ggplot(means_table, aes(x = Period, y = Lbs_Sold)) +
   geom_col(fill = "orange") +
   labs(title = "Mean Lbs Sold by Period", x = "Period", y = "Mean Lbs Sold") +
   theme_minimal()
+
+#Pregunta 5 
+
+#Sactter Plot Revenue vs Lbs Sold
+library(ggplot2)
+
+ggplot(combined_data, aes(x = `Lbs. Sold`, y = Revenue)) +
+  geom_point(color = "steelblue", size = 2) +
+  labs(
+    title = "Revenue vs Pounds Sold",
+    x = "Pounds Sold",
+    y = "Revenue"
+  ) +
+  theme_minimal()
+
+#Correlacion
+cor(combined_data$Revenue, combined_data$`Lbs. Sold`, use = "complete.obs")
+
+
