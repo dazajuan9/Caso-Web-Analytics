@@ -3,7 +3,7 @@ library(readxl)
 library(tidyverse)
 
 # Cargar datos del excel
-setwd("/Users/maru/Desktop/Javeriana/4/Analitica de los negocios/Caso-Web-Analytics")
+setwd("/Users/JuanEstebanDaza/Desktop/GitHub/Caso-Web-Analytics")
 data <- read_excel('Data_Web_Analytics.xls')
 
 # Creacion de datasets
@@ -24,6 +24,7 @@ str(combined_data)
 ggplot(combined_data, aes(x = `Week (2008-2009)`, y = `Unique Visits`, group = 1)) +
   geom_col(fill = "steelblue", linewidth = 1) + labs (title = "Visitas Semanales a lo largo del tiempo", x = "Semana", y = "Número de Visitas") +
   theme_minimal() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 ###################################################################
 # Gráfico de Ingresos semanales 
 ggplot(combined_data, aes(x = `Week (2008-2009)`, y = `Revenue`, group = 1)) +
@@ -41,3 +42,31 @@ ggplot(combined_data, aes(x = `Week (2008-2009)`, y = `Lbs. Sold`, group = 1)) +
   labs(title = "Libras vendidas a lo largo del tiempo", x = "Semana", y = "Libras vendidas") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# PUNTO 2: ESTADÍSTICAS DESCRIPTIVAS POR PERÍODO
+
+tabla_estadisticas_descriptivas <- function(datos) {
+  data.frame(
+    row.names     = c("mean", "median", "std. dev.", "minimum", "maximum"),
+    Visits        = c(round(mean(datos$Visits), 2),          round(median(datos$Visits), 2),
+                      round(sd(datos$Visits), 2),            round(min(datos$Visits), 2),
+                      round(max(datos$Visits), 2)),
+    Unique.Visits = c(round(mean(datos$`Unique Visits`), 2), round(median(datos$`Unique Visits`), 2),
+                      round(sd(datos$`Unique Visits`), 2),   round(min(datos$`Unique Visits`), 2),
+                      round(max(datos$`Unique Visits`), 2)),
+    Revenue       = c(round(mean(datos$Revenue), 2),         round(median(datos$Revenue), 2),
+                      round(sd(datos$Revenue), 2),           round(min(datos$Revenue), 2),
+                      round(max(datos$Revenue), 2)),
+    Profit        = c(round(mean(datos$Profit), 2),          round(median(datos$Profit), 2),
+                      round(sd(datos$Profit), 2),            round(min(datos$Profit), 2),
+                      round(max(datos$Profit), 2)),
+    Lbs.Sold      = c(round(mean(datos$`Lbs. Sold`), 2),     round(median(datos$`Lbs. Sold`), 2),
+                      round(sd(datos$`Lbs. Sold`), 2),       round(min(datos$`Lbs. Sold`), 2),
+                      round(max(datos$`Lbs. Sold`), 2))
+  )
+}
+
+write.csv(tabla_estadisticas_descriptivas(initial),   "summary_initial.csv")
+write.csv(tabla_estadisticas_descriptivas(prepromo),  "summary_prepromo.csv")
+write.csv(tabla_estadisticas_descriptivas(promo),     "summary_promo.csv")
+write.csv(tabla_estadisticas_descriptivas(postpromo), "summary_postpromo.csv")
