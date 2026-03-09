@@ -155,4 +155,17 @@ ggplot(combined_data, aes(x = `Lbs. Sold`, y = Revenue)) +
 #Correlacion
 cor(combined_data$Revenue, combined_data$`Lbs. Sold`, use = "complete.obs")
 
+#Pregunta 6 
 
+#Sactter Plot Revenue vs Visits 
+ggplot(combined_data, aes(x = Visits, y = Revenue)) +
+  geom_point(color = "darkgreen", size = 2) +
+  labs(
+    title = "Revenue vs Visits",
+    x = "Visits",
+    y = "Revenue"
+  ) +
+  theme_minimal()
+
+#Correlacion
+cor(combined_data$Revenue, combined_data$Visits, use = "complete.obs")
