@@ -44,6 +44,16 @@ ggplot(combined_data, aes(x = `Week (2008-2009)`, y = `Lbs. Sold`, group = 1)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # PUNTO 2: ESTADÍSTICAS DESCRIPTIVAS POR PERÍODO
+combined_data$Period <- NA
+combined_data$Period[1:14]  <- "Initial"
+combined_data$Period[15:35] <- "Pre-Promotion"
+combined_data$Period[36:52] <- "Promotion"
+combined_data$Period[53:66] <- "Post-Promotion"
+
+initial   <- combined_data[combined_data$Period == "Initial", ]
+prepromo  <- combined_data[combined_data$Period == "Pre-Promotion", ]
+promo     <- combined_data[combined_data$Period == "Promotion", ]
+postpromo <- combined_data[combined_data$Period == "Post-Promotion", ]
 
 tabla_estadisticas_descriptivas <- function(datos) {
   data.frame(
@@ -63,8 +73,7 @@ tabla_estadisticas_descriptivas <- function(datos) {
     Lbs.Sold      = c(round(mean(datos$`Lbs. Sold`), 2),     round(median(datos$`Lbs. Sold`), 2),
                       round(sd(datos$`Lbs. Sold`), 2),       round(min(datos$`Lbs. Sold`), 2),
                       round(max(datos$`Lbs. Sold`), 2))
-  )
-}
+  )}
 
 write.csv(tabla_estadisticas_descriptivas(initial),   "summary_initial.csv")
 write.csv(tabla_estadisticas_descriptivas(prepromo),  "summary_prepromo.csv")
