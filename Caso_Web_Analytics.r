@@ -319,3 +319,106 @@ print(shape_statistics)
 # Guardar CSV
 write.csv(shape_statistics, "skewness_kurtosis_lbs_sold.csv", row.names = FALSE)
 
+#PREGUNTA 10 Demographics
+
+# 1. ALL TRAFFIC SOURCES
+traffic <- data.frame(
+  Source = c("Referring Sites","Search Engines","Direct Traffic","Other"),
+  Visits = c(38754,20964,9709,4)
+)
+
+ggplot(traffic, aes(x = Source, y = Visits)) +
+  geom_bar(stat="identity") +
+  labs(title="All Traffic Sources",
+       x="Source",
+       y="Visits") +
+  theme_minimal()
+
+
+# 2. TOP TEN REFERRING SITES
+ref_sites <- data.frame(
+  Site = c("googleads.g.doubleclick.net",
+           "pagead2.googlesyndication.com",
+           "sedoparking.com",
+           "globalspec.com",
+           "searchportal.information.com",
+           "freepatentsonline.com",
+           "thomasnet.com",
+           "mu.com",
+           "mail.google.com",
+           "psicofxp.com"),
+  Visits = c(15626,8044,3138,693,582,389,379,344,337,310)
+)
+
+ggplot(ref_sites, aes(x=reorder(Site,Visits), y=Visits)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  labs(title="Top Referring Sites",
+       x="Website",
+       y="Visits") +
+  theme_minimal()
+
+
+# 3. SEARCH ENGINE SOURCES
+search_engines <- data.frame(
+  Engine = c("Google","Yahoo","Search","MSN","AOL","Ask","Live","Bing","Voila","Netscape"),
+  Visits = c(17681,1250,592,424,309,268,145,122,63,26)
+)
+
+ggplot(search_engines, aes(x=reorder(Engine,Visits), y=Visits)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  labs(title="Search Engine Sources",
+       x="Search Engine",
+       y="Visits") +
+  theme_minimal()
+
+
+# 4. GEOGRAPHIC SOURCES
+regions <- data.frame(
+  Region = c("South America","Northern America","Central America","Western Europe",
+             "Eastern Asia","Northern Europe","Southern Asia","South-Eastern Asia",
+             "Southern Europe","Eastern Europe"),
+  Visits = c(22616,17509,6776,5214,3228,2721,2589,1968,1538,1427)
+)
+
+ggplot(regions, aes(x=reorder(Region,Visits), y=Visits)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  labs(title="Geographic Sources of Visits",
+       x="Region",
+       y="Visits") +
+  theme_minimal()
+
+
+# 5. BROWSERS USED
+browsers <- data.frame(
+  Browser = c("Internet Explorer","Firefox","Opera","Safari","Chrome",
+              "Mozilla","Netscape","Konqueror","SeaMonkey","Camino"),
+  Visits = c(53080,13142,938,850,792,478,47,31,24,9)
+)
+
+ggplot(browsers, aes(x=reorder(Browser,Visits), y=Visits)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  labs(title="Browsers Used by Visitors",
+       x="Browser",
+       y="Visits") +
+  theme_minimal()
+
+# 6. OPERATING SYSTEMS USED
+
+os <- data.frame(
+  OS = c("Windows","Macintosh","Linux","(not set)","iPhone",
+         "SymbianOS","FreeBSD","iPod","Playstation 3","Playstation Portable"),
+  Visits = c(67063,1184,1045,48,29,20,18,8,4,3)
+)
+
+ggplot(os, aes(x=reorder(OS,Visits), y=Visits)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  labs(title="Operating Systems Used by Visitors",
+       x="Operating System",
+       y="Visits") +
+  theme_minimal()
+
