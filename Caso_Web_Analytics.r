@@ -129,10 +129,10 @@ ggplot(means_table, aes(x = Period, y = Visits)) +
 
 #Grafica mean unique visits by period
 ggplot(means_table, aes(x = Period, y = Unique_Visits)) +
-  geom_col(fill = "steelblue") +
-  labs(title = "Mean Visits by Period",
+  geom_col(fill = "red") +
+  labs(title = "Mean Unique Visits by Period",
        x = "Period",
-       y = "Mean Visits") +
+       y = "Mean Unique Visits") +
   theme_minimal()
 
 #Grafica mean revenue by period
@@ -318,3 +318,4 @@ print(shape_statistics)
 
 # Guardar CSV
 write.csv(shape_statistics, "skewness_kurtosis_lbs_sold.csv", row.names = FALSE)
+
